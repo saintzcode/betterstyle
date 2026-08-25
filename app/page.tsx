@@ -1,69 +1,73 @@
-import Image from "next/image";
+import { Hero } from "@/components/editorial/Hero";
+import { StatementBlock } from "@/components/editorial/StatementBlock";
+import { CollectionStrip } from "@/components/editorial/CollectionStrip";
+import { SplitSection } from "@/components/editorial/SplitSection";
+import { JournalCard } from "@/components/editorial/JournalCard";
+import { ReceiptWall } from "@/components/editorial/ReceiptWall";
+import Link from "next/link";
+import { Marquee } from "@/components/ui/Marquee";
+import { RevealText } from "@/components/ui/RevealText";
+import { Button } from "@/components/ui/Button";
+import { collections } from "@/data/collections";
+import { journalPosts } from "@/data/journal";
+import { receipts } from "@/data/receipts";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <>
+      <Hero />
+
+      <StatementBlock
+        eyebrow="Our Philosophy"
+        statement="We build a small number of garments extremely well, and let the rest of the wardrobe fall away — denim with weight, shirting with structure, knitwear that holds its shape after the hundredth wash."
+      />
+
+      <div className="border-y border-border py-6">
+        <Marquee
+          items={[
+            "Garment-Dyed Denim",
+            "Small Production Runs",
+            "Since Ninety-Four",
+            "Embroidered, Not Printed",
+          ]}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+      </div>
+
+      <CollectionStrip collections={collections} />
+
+      <SplitSection
+        inverse
+        image={{ alt: "BetterStyle — hand-finishing detail", aspect: 4 / 5 }}
+        eyebrow="Craft"
+        title="Every stitch is a decision, not a default."
+        body="From the weight of the denim to the shank of the button, nothing in a BetterStyle garment is stock. Our patterns are cut in-house and finished by hand in runs small enough to check by eye, not by algorithm."
+        cta={<Button href="/about" variant="secondary">The Full Story</Button>}
+      />
+
+      <ReceiptWall receipts={receipts} />
+
+      <section className="px-5 py-20 md:px-10 md:py-28">
+        <div className="mb-12 flex items-end justify-between">
+          <RevealText as="h2" className="font-display text-display-3">
+            From the Journal
+          </RevealText>
+          <RevealText delay={0.1}>
+            <Link
+              href="/journal"
+              className="hidden text-[0.72rem] uppercase tracking-[0.16em] text-fg-muted hover:text-fg md:inline"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              Read More →
+            </Link>
+          </RevealText>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="grid gap-10 md:grid-cols-3">
+          {journalPosts.slice(0, 3).map((post, i) => (
+            <RevealText key={post.slug} delay={i * 0.1}>
+              <JournalCard post={post} />
+            </RevealText>
+          ))}
         </div>
-      </main>
-    </div>
+      </section>
+    </>
   );
 }
