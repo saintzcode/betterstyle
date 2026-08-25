@@ -1,0 +1,20 @@
+# Normalize all text files to LF in the repository and in the working tree,
+# so Windows, macOS, and Linux checkouts produce identical diffs.
+* text=auto eol=lf
+
+# Binary assets — never touch line endings or attempt text diffs.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.pdf binary
+
+# Generated: collapse lockfile noise in diffs and reviews.
+package-lock.json -diff linguist-generated
